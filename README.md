@@ -27,7 +27,9 @@ It supports basic arithmetic operations along with advanced mathematical functio
 ## Project Structure
 
 ├── index.html # Calculator layout
+
 ├── index.css # Styling and responsiveness
+
 ├── index.js # Calculator functionality
 
 ## Technologies Used
