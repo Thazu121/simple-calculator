@@ -27,7 +27,9 @@ It supports basic arithmetic operations along with advanced mathematical functio
 ## Project Structure
 
 ├── index.html # Calculator layout
+
 ├── index.css # Styling and responsiveness
+
 ├── index.js # Calculator functionality
 
 ## Technologies Used
@@ -60,7 +62,8 @@ It supports basic arithmetic operations along with advanced mathematical functio
 ## Installation
 1. Download or clone the repository
 2. Open the project folder
-git clone https://github.com/Thazu121/calculator.git
+
+git clone https://github.com/Thazu121/simple-calculator.git
 
 
 ##  Future Improvements
