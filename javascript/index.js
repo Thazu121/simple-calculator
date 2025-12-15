@@ -8,7 +8,7 @@ let operator = ""
 
 
 btn.forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (event) => {
         const value = btn.dataset.value
         if (!isNaN(value)) {
             curr += value
