@@ -23,20 +23,32 @@ btn.forEach(btn => {
             }
         }
 
-        else if (["+", "-", "x", "/"].includes(value)) {
-            if (displayExpr === "") return
-            displayExpr += value
-            expression += value === "x" ? "*" : value
-            updateDisplay()
+else if (["+", "-", "x", "/"].includes(value)) {
+    if (displayExpr === "") {
+        if (value === "-") {
+            displayExpr += value;
+            expression += value;
+            updateDisplay();
         }
+        return;
+    }
+
+    const lastChar = displayExpr[displayExpr.length - 1];
+    if (["+", "-", "x", "/"].includes(lastChar)) return;
+
+    displayExpr += value;
+    expression += value === "x" ? "*" : value;
+    updateDisplay();
+}
 
 
-        else if (value === "√") {
-            if (displayExpr === "") return
-            displayExpr = `√(${displayExpr})`
-            expression = `Math.sqrt(${expression})`
-            updateDisplay()
-        }
+ else if (value === "√") {
+    if (displayExpr === "") return;
+    displayExpr = "√(" + displayExpr + ")";
+    expression = "Math.sqrt(" + expression + ")";
+    updateDisplay();
+}
+
 
          else if (value === "x2") {
             if (displayExpr === "") return;
