@@ -1,159 +1,106 @@
-
 const display = document.getElementById("display")
 const btn = document.querySelectorAll("button")
 
-let curr = ""
-let prev = ""
-let operator = ""
-
+let expression = ""     
+let displayExpr = ""   
 
 btn.forEach(btn => {
-    btn.addEventListener("click", (event) => {
+    btn.addEventListener("click", () => {
         const value = btn.dataset.value
-        if (!isNaN(value)) {
-            curr += value
-            updateDisplay()
 
-        }
-        else if (value === ".") {
-            if (curr === "") {
-                curr = "0."
-            } else if (!curr.includes(".")) {
-                curr += "."
-            }
+        if (!isNaN(value)) {
+            expression += value
+            displayExpr += value
             updateDisplay()
+        }
+
+        else if (value === ".") {
+            const parts = displayExpr.split(/[\+\-\*\/\(\)]/)
+            if (!parts[parts.length - 1].includes(".")) {
+                expression += "."
+                displayExpr += "."
+                updateDisplay()
+            }
         }
 
         else if (["+", "-", "x", "/"].includes(value)) {
-            if (curr === "") return
-            if (prev !== "") calculate()
-            operator = value
-            prev = curr
-            curr = ""
+            if (displayExpr === "") return
+            displayExpr += value
+            expression += value === "x" ? "*" : value
             updateDisplay()
-
         }
 
 
         else if (value === "√") {
-            if (curr === "") return
-
-            const num = Number(curr)
-            if (num < 0) {
-                display.value = "Error"
-                curr = ""
-                prev = ""
-                operator = ""
-                return
-            }
-            const result = Math.sqrt(num)
-            curr = result.toString()
-
+            if (displayExpr === "") return
+            displayExpr = `√(${displayExpr})`
+            expression = `Math.sqrt(${expression})`
             updateDisplay()
         }
 
-
-        else if (value === "x2") {
-            if (curr === "") return
-
-            curr = (Number(curr) ** 2).toString()
-            updateDisplay()
+         else if (value === "x2") {
+            if (displayExpr === "") return;
+            displayExpr = "(" + displayExpr + ")²";
+            expression = "(" + expression + ")**2";
+            updateDisplay();
         }
 
-        else if (value === "x3") {
-            if (curr === "") return
-
-            curr = (Number(curr) ** 3).toString()
-            updateDisplay()
+          else if (value === "x3") {
+            if (displayExpr === "") return;
+            displayExpr = "(" + displayExpr + ")³";
+            expression = "(" + expression + ")**3";
+            updateDisplay();
         }
 
-
-
-        else if (value === "1/x") {
-            if (curr === "") return
-
-            const num = Number(curr)
-            if (num === 0) {
-                display.value = "Error"
-                curr = ""
-                prev = ""
-                operator = ""
-                return
-            }
-
-            curr = (1 / num).toString()
-            updateDisplay()
+      else if (value === "1/x") {
+            if (displayExpr === "") return;
+            displayExpr = "1/(" + displayExpr + ")";
+            expression = "1/(" + expression + ")";
+            updateDisplay();
         }
 
-        
-        else if (value === "%") {
-            if (curr === "") return
-            let percent
-            if (prev !== "" && (operator === "+" || operator === "-")) {
-                percent = Number(prev) * Number(curr) / 100
-            } else {
-                percent = Number(curr / 100)
-            }
-            curr = percent.toString()
-            updateDisplay()
+       else if (value === "%") {
+            if (displayExpr === "") return;
+            displayExpr = "(" + displayExpr + ")/100";
+            expression = "(" + expression + ")/100";
+            updateDisplay();
         }
-
 
         else if (value === "=") {
             calculate()
         }
 
+        else if (value === "DE") {
+            displayExpr = displayExpr.slice(0, -1)
+            expression = expression.slice(0, -1)
+            updateDisplay()
+        }
+
         else if (value === "AC") {
             clearAll()
         }
-
-        else if (value === "DE") {
-            curr = curr.slice(0, -1)
-            updateDisplay()
-
-        }
     })
-
 })
 
-
-
 function calculate() {
-    if (prev == "" || curr == "") return
-    const a = Number(prev)
-    const b = Number(curr)
-    let result
-    switch (operator) {
-        case "+": result = a + b
-            break;
-        case "-": result = a - b
-            break;
-        case "x": result = a * b
-            break;
-        case "/": result = b === 0 ? "Error" : a / b
-            break;
-
+    try {
+        const result = Function("return " + expression)()
+        display.value = result
+        displayExpr = result.toString()
+        expression = result.toString()
+    } catch {
+        display.value = "Error"
+        displayExpr = ""
+        expression = ""
     }
-    display.value = result
-    curr = result.toString()
-    prev = ""
-    operator = ""
 }
 
 function updateDisplay() {
-    if (operator && prev !== "") {
-        display.value = prev + operator + curr
-    } else {
-        display.value = curr || "0"
-    }
+    display.value = displayExpr || "0"
 }
 
 function clearAll() {
-    curr = ""
-    prev = ""
-    operator = ""
+    expression = ""
+    displayExpr = ""
     display.value = "0"
-
 }
-
-
