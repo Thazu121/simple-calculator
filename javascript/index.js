@@ -1,8 +1,8 @@
 const display = document.getElementById("display")
 const btn = document.querySelectorAll("button")
 
-let expression = ""     
-let displayExpr = ""   
+let expression = ""
+let displayExpr = ""
 
 btn.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -23,58 +23,79 @@ btn.forEach(btn => {
             }
         }
 
-else if (["+", "-", "x", "/"].includes(value)) {
-    if (displayExpr === "") {
-        if (value === "-") {
+        else if (["+", "-", "x", "/"].includes(value)) {
+            if (displayExpr === "") {
+                if (value === "-") {
+                    displayExpr += value;
+                    expression += value;
+                    updateDisplay();
+                }
+                return;
+            }
+
+            const lastChar = displayExpr[displayExpr.length - 1];
+            if (["+", "-", "x", "/"].includes(lastChar)) return;
+
             displayExpr += value;
-            expression += value;
+            expression += value === "x" ? "*" : value;
             updateDisplay();
         }
-        return;
-    }
-
-    const lastChar = displayExpr[displayExpr.length - 1];
-    if (["+", "-", "x", "/"].includes(lastChar)) return;
-
-    displayExpr += value;
-    expression += value === "x" ? "*" : value;
-    updateDisplay();
-}
 
 
- else if (value === "√") {
-    if (displayExpr === "") return;
-    displayExpr = "√(" + displayExpr + ")";
-    expression = "Math.sqrt(" + expression + ")";
-    updateDisplay();
-}
+        else if (value === "√") {
+            if (displayExpr === "") return;
+            displayExpr = "√(" + displayExpr + ")";
+            expression = "Math.sqrt(" + expression + ")";
+            updateDisplay();
+        }
 
 
-         else if (value === "x2") {
+        else if (value === "x2") {
             if (displayExpr === "") return;
             displayExpr = "(" + displayExpr + ")²";
             expression = "(" + expression + ")**2";
             updateDisplay();
         }
 
-          else if (value === "x3") {
+        else if (value === "x3") {
             if (displayExpr === "") return;
             displayExpr = "(" + displayExpr + ")³";
             expression = "(" + expression + ")**3";
             updateDisplay();
         }
 
-      else if (value === "1/x") {
+        else if (value === "1/x") {
             if (displayExpr === "") return;
             displayExpr = "1/(" + displayExpr + ")";
             expression = "1/(" + expression + ")";
             updateDisplay();
         }
 
-       else if (value === "%") {
+        else if (value === "%") {
             if (displayExpr === "") return;
-            displayExpr = "(" + displayExpr + ")/100";
-            expression = "(" + expression + ")/100";
+
+            const operators = ["+", "-", "*", "/"];
+            let lastOperatorIndex = -1;
+
+            for (let i = displayExpr.length - 1; i >= 0; i--) {
+                if (operators.includes(expression[i])) {
+                    lastOperatorIndex = i;
+                    break;
+                }
+            }
+
+            if (lastOperatorIndex === -1) {
+                displayExpr = "(" + displayExpr + ")/100";
+                expression = "(" + expression + ")/100";
+            } else {
+                let baseExpr = expression.slice(0, lastOperatorIndex);
+                let operator = expression[lastOperatorIndex];
+                let number = expression.slice(lastOperatorIndex + 1);
+
+                expression = baseExpr + operator + "(" + baseExpr + "*" + number + "/100)";
+                displayExpr = displayExpr + "%";
+            }
+
             updateDisplay();
         }
 

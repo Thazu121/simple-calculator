@@ -1,14 +1,17 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial,  sans-serif;
+    font-family: Arial, sans-serif;
 }
-body,html{
+
+body,
+html {
     height: 100%;
     width: 100%;
 }
-#container{
+
+#container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,74 +20,86 @@ body,html{
     padding: 10px;
 
 }
-#calculator{
-      background: #3a4452;
-        padding: 20px;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 350px;
+
+#calculator {
+    background: #3a4452;
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 350px;
 
 
 }
-.button{
+
+.button {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
-button{
+
+button {
     padding: 15px;
     border: none;
-    border-radius:10px ;
-    box-shadow:-8px -5px 15px rgba(155, 113, 119, 0.1) ,5px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: -8px -5px 15px rgba(155, 113, 119, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.2);
     background: transparent;
     font-size: 1.2rem;
     color: #fff;
     cursor: pointer;
-    
+
 }
+
 button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
-.op{
+
+.op {
     color: aqua;
 }
-#t{
-grid-column: span 2;
-color:aquamarine;
+
+#t {
+    grid-column: span 2;
+    color: aquamarine;
 
 }
-#display{
+
+#display {
     width: 100%;
     padding: 20px;
     border: none;
     margin-bottom: 15px;
     background: transparent;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); 
-    text-align:  right;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: right;
     color: #fff;
     cursor: pointer;
     font-size: 2rem;
     border-radius: 10px;
 }
+
 @media (max-width: 600px) {
     #calculator {
         max-width: 90%;
         padding: 15px;
     }
+
     #display {
         padding: 15px;
         font-size: 1.8rem;
     }
+
     button {
         padding: 12px;
         font-size: 1rem;
     }
 }
+
 @media (max-width: 400px) {
     #display {
         font-size: 1.5rem;
         padding: 10px;
     }
+
     button {
         padding: 10px;
         font-size: 0.9rem;
